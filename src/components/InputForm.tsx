@@ -23,13 +23,24 @@ interface FormData {
 interface InputFormProps {
     onFormSubmit: (data: FormData) => void;
 }
-
+interface User {
+    email: string;
+    numOfProducts: number,
+    numOfUsers: number,
+    percentage: number,
+    companyName: string,
+    id: string,
+    file: File,
+    image: string | null,
+    // ... other fields if there are any
+}
 const InputForm: React.FC<InputFormProps> = ({ onFormSubmit }) => {
     const [companyName, setCompanyName] = useState<string | ''>('');
     const [numOfUsers, setNumOfUsers] = useState<number | ''>('');
     const [numOfProducts, setNumOfProducts] = useState<number | ''>('');
     const [percentage, setPercentage] = useState(0);
     const [authing, setAuthing] = useState(false);
+    const [userData, setUserData] = useState<User | null>(null);
     const navigate = useNavigate();
 
     const userToken: any = localStorage.getItem("userToken");
@@ -114,7 +125,8 @@ const InputForm: React.FC<InputFormProps> = ({ onFormSubmit }) => {
                 numOfUsers: Number(numOfUsers),
                 numOfProducts: Number(numOfProducts),
                 percentage: parseFloat(percentage.toFixed(2)),
-                email: _userEmail
+                email: _userEmail,
+                image: userData?.image 
             };
             console.log("pa", payload.companyName)
             console.log("pa", JSON.stringify(payload))
@@ -147,6 +159,37 @@ const InputForm: React.FC<InputFormProps> = ({ onFormSubmit }) => {
         localStorage.clear()
         navigate('/login')
     }
+  
+    useEffect(() => {
+        // console.log("got here 1")
+        const _userToken: any = localStorage.getItem("userToken");
+        const userId: any = localStorage.getItem("uid")
+        // console.log("this is token", _userToken)
+        // console.log("userId", userId)
+        // console.log("_userToken:", _userToken);
+
+        // console.log("got here 2")
+        // const userToken = JSON.parse(_userToken)
+        // console.log("userT", _userToken)
+
+        const getUsers = async () => {
+
+            // const response = await fetch(`${API_BASE_URL}/retrieve-non-admin-users`, {
+                const response = await fetch(`/api/users/retrieve-single-data/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': _userToken
+                },
+
+            });
+            const data = await response.json();
+            // console.log("newdata", data)
+            // console.log("this is single user", data.data)
+            setUserData(data.data)
+        }
+        getUsers();
+    }, [])
     return (
         <div className='user-input-container'>
             <div className='user-logout'>
@@ -154,6 +197,12 @@ const InputForm: React.FC<InputFormProps> = ({ onFormSubmit }) => {
                 <p className='ptag'>Logged in as: <span className='span' >{userEmail}</span></p>
                 <button onClick={handleLogout}>Logout</button>
             </div>
+            {
+               (userData && userData?.image) &&  <div>
+               <img className='img-profile' src={userData?.image} alt="" />
+               <h1>Hi User: {userData.email}</h1>
+           </div>
+            }
             <div>
                 <p className='heading'>Company Name</p>
                 <input

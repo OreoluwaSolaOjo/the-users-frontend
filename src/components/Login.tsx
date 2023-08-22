@@ -11,15 +11,12 @@ const LoginSchema = z.object({
     email: z.string().email(),
     password: z.string().min(6) // Example: password should be at least 8 characters
 });
-interface LoginProps {
-    onLogin: () => void;
 
-}
 type ErrorType = {
     message: string;
 };
 
-const Login: React.FC<LoginProps> = ({ onLogin }) => {
+const Login: React.FC= () => {
     const auth = getAuth();
     const navigate = useNavigate();
     const [authing, setAuthing] = useState(false);
@@ -120,6 +117,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             const idTokenResult = await user.getIdTokenResult();
             console.log("user", user)
             console.log("idtoken", idTokenResult)
+          
+            localStorage.setItem('uid', idTokenResult.claims.user_id)
             if (idTokenResult.claims.admin) {
                 // The user is an admin.
                 // You can now adapt your frontend UI/UX accordingly.

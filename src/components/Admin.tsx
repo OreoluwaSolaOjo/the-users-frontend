@@ -198,7 +198,7 @@ const AdminPage: React.FC<AdminPageProps> = () => {
         const getUsers = async () => {
 
             // const response = await fetch(`${API_BASE_URL}/retrieve-non-admin-users`, {
-                const response = await fetch('/api/users/edit-user/retrieve-non-admin-users', {
+                const response = await fetch('/api/users/retrieve-non-admin-users', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -300,7 +300,7 @@ const AdminPage: React.FC<AdminPageProps> = () => {
                             <div className='container-div' key={users.id}>
                                 <div className='image-file'>
                                     <div>
-                                        <img className='img-cls' src={`http://localhost:3002/${users.image}`} alt="" />
+                                        <img className='img-cls' src={users.image} alt={users.image} />
                                     </div>
                                     <div>
                                         <label className='labelimage' htmlFor={`file-upload-${users.id}`}>Upload Image</label>

@@ -25,7 +25,7 @@ function App() {
         <Route
           path="/login"
           element={
-            <Login onLogin={() => setLoggedIn(true)} />
+            <Login />
           }
         />
         <Route path="/" element={<AuthRoute>
