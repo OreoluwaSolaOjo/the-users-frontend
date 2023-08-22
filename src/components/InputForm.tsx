@@ -120,7 +120,8 @@ const InputForm: React.FC<InputFormProps> = ({ onFormSubmit }) => {
             console.log("pa", JSON.stringify(payload))
             console.log("here i am", userToken)
 
-            const response = await fetch(`${API_BASE_URL}/submit-data`, {
+            // const response = await fetch(`${API_BASE_URL}/submit-data`, {
+                const response = await fetch('/api/users/submit-data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

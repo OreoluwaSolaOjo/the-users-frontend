@@ -98,7 +98,8 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             localStorage.setItem("userToken", token);
             localStorage.setItem("email", user.email);
             // Send the token to your backend
-            const response = await fetch(`${API_BASE_URL}/login`, {
+            // const response = await fetch(`${API_BASE_URL}/login`, {
+                const response = await fetch('/api/users/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

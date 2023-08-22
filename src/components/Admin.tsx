@@ -166,7 +166,8 @@ const AdminPage: React.FC<AdminPageProps> = () => {
                 //         'Authorization': localStorage.getItem("userToken") || ''
                 //     }
                 // });
-                const response = await fetch(`${API_BASE_URL}/edit-user/${user.id}`, {
+                // const response = await fetch(`${API_BASE_URL}/edit-user/${user.id}`, {
+                    const response = await fetch(`/api/users/edit-user/${user.id}`, {
                                     method: 'POST',
                                     headers: {
                                         'Authorization': localStorage.getItem("userToken") || '',
@@ -196,7 +197,8 @@ const AdminPage: React.FC<AdminPageProps> = () => {
 
         const getUsers = async () => {
 
-            const response = await fetch(`${API_BASE_URL}/retrieve-non-admin-users`, {
+            // const response = await fetch(`${API_BASE_URL}/retrieve-non-admin-users`, {
+                const response = await fetch('/api/users/edit-user/retrieve-non-admin-users', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
